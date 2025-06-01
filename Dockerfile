@@ -14,4 +14,4 @@ COPY . .
 
 RUN python manage.py collectstatic --noinput
 
-CMD ["gunicorn", "Warehouse.wsgi:application", "--bind", "0.0.0.0:8008"]
+CMD ["gunicorn", "Warehouse.wsgi:application", "--bind", "0.0.0.0:8008", "--workers", "4"]
