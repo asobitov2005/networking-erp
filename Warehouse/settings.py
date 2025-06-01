@@ -16,6 +16,19 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+from whitenoise.storage import CompressedManifestStaticFilesStorage
+
+class CustomStaticFilesStorage(CompressedManifestStaticFilesStorage):
+    # sourcemap izlash patternini olib tashlash
+    patterns = (
+        ("*.css", (
+            r'url\([^)]+\)',
+        )),
+        ("*.js", (
+            r'//[ \t]*[#@][ \t]*sourceMappingURL=.*\.map',
+        )),
+    )
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -115,4 +128,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'userApp.Tarqatuvchi'
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'CustomStaticFilesStorage'
