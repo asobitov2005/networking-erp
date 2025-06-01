@@ -25,3 +25,4 @@ jobs:
 
     - name: Run migrations
       run: docker exec myapp-container python manage.py migrate
+
