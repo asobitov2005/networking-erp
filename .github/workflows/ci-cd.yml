@@ -15,14 +15,16 @@ jobs:
     - name: Build Docker image
       run: docker build -t myapp:latest .
 
-    - name: Run Docker container with volume mount for SQLite
+    - name: Create Docker volume if not exists
+      run: docker volume create myapp_data || true
+
+    - name: Run Docker container with volume for SQLite
       run: |
         docker stop myapp-container || true
         docker rm myapp-container || true
         docker run -d -p 8008:8008 \
-          -v ${{ github.workspace }}/db.sqlite3:/app/db.sqlite3 \
+          -v myapp_data:/app \
           --name myapp-container myapp:latest
 
-    - name: Run migrations
+    - name: Run Django migrations
       run: docker exec myapp-container python manage.py migrate
-
